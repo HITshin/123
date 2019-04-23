@@ -1,28 +1,67 @@
-#include <stdio.h>
- 
-int main()
+#include<stdio.h>
+#include<time.h>
+int max, min;
+int a[100];
+void maxmin(int i, int j)
 {
-  int array[100], maximum, size, c, location = 1;
  
-  printf("Enter the number of elements in array\n");
-  scanf("%d", &size);
- 
-  printf("Enter %d integers\n", size);
- 
-  for (c = 0; c < size; c++)
-    scanf("%d", &array[c]);
- 
-  maximum = array[0];
- 
-  for (c = 1; c < size; c++)
+ int max1, min1, mid;
+  if(i==j)
+ {
+  max = min = a[i];
+ }
+ else
+ {
+  if(i == j)
   {
-    if (array[c] > maximum)
-    {
-       maximum  = array[c];
-       location = c+1;
-    }
+   if(a[i] <a[j])
+   {
+    max = a[j];
+    min = a[i];
+   }
+   else
+   {
+    max = a[i];
+    min = a[j];
+   } 
   }
- 
-  printf("Maximum element is present at location %d and it's value is %d.\n", location, maximum);
-  return 0;
+  else
+  {
+   mid = (i+j)/2;
+   maxmin(i, mid);
+   max1 = max; min1 = min;
+   maxmin(mid+1, j);
+   if(max <max1)
+    max = max1;
+   if(min > min1)
+    min = min1;
+  }
+ }
 }
+
+
+int main ()
+{
+ int i, num;
+  time_t t;
+
+ clock_t begin = clock();
+ printf ("\nEnter the total number of numbers : ");
+ scanf ("%d",&num);
+ printf ("Enter the numbers : \n");
+ for (i=1;i<=num;i++)
+  scanf ("%d",&a[i]);
+
+ max = a[0];
+ min = a[0];
+ maxmin(1, num);
+ printf ("Minimum element in an array : %d\n", min);
+ printf ("Maximum element in an array : %d\n", max);
+ 
+  clock_t end = clock();
+double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  printf("\n execution time is: %f\n",time_spent);
+
+ return 0;
+}
+
